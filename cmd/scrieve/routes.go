@@ -16,7 +16,7 @@ func (s *service) serveIndex(w http.ResponseWriter, r *http.Request) {
 func (s *service) serveInvalidURLErr(w http.ResponseWriter, r *http.Request) {
 	log.Printf("%s %s\n", r.Method, r.URL)
 	w.WriteHeader(http.StatusBadRequest)
-	genHTML(w, "The URL was invalid, please try again.", "index", "base")
+	genHTML(w, "Invalid URL, please try again.", "index", "base")
 	return
 }
 

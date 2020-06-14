@@ -7,7 +7,7 @@ import (
 
 // Length of the random string in bytes and chars
 // Due to base64: 4 * 20 / 3, rounded to multiple of 4
-const tokenBytes = 6
+const tokenBytes = 3
 const tokenChars = ((4 * tokenBytes / 3) + 3) & ^3
 
 func getRandString(size int) (s string, err error) {

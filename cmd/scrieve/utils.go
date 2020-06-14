@@ -21,12 +21,15 @@ func validateURL(target string) (validated string, err error) {
 	// Re-parse to properly detect the other fields
 	if url.Scheme == "" {
 		url.Scheme = "http"
-		url, _ = tld.Parse(url.String())
+		url, err = tld.Parse(url.String())
+		if err != nil {
+			return
+		}
 	}
 
 	// Validate the URL string by checking for a host and TLD
 	if url.Host == "" || url.TLD == "" {
-		err = errors.New("Invalid URL")
+		return "", errors.New("Invalid URL")
 	}
 
 	validated = url.String()
