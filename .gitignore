@@ -1,2 +1,7 @@
+*.db
 .env
+
+deploy.sh
+build/
+
 TODO.md

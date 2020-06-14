@@ -7,9 +7,11 @@ import (
 	"os"
 
 	"github.com/joho/godotenv"
+	"github.com/lawrie-sm/scrieve/internal/data"
 )
 
 type service struct {
+	db  *data.DB
 	mux *http.ServeMux
 }
 
@@ -20,6 +22,11 @@ func (s *service) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 func newService() *service {
 	s := &service{}
 	s.setupRoutes()
+
+	s.db = &data.DB{}
+	s.db.Connect()
+	s.db.Setup()
+
 	log.SetFlags(log.Lshortfile)
 	return s
 }
