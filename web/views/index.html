@@ -1,15 +1,10 @@
-<!DOCTYPE html>
-<html>
-  <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Scrieve</title>
-  <!-- <link rel="shortcut icon" href="static/favicon.ico"> -->
-  <link rel="stylesheet" type="text/css" href="static/styles.css">
-  </head>
-  <body>
-    <main>
-      Main.
-    </main>
-  </body>
-</html>
+{{template "base" .}}
+
+{{define "main"}}
+    <h1>Scrieve</h1>
+    <form action="/" method="post">
+      <label for="url">Enter url to shorten</label>
+      <input type="text" name="full-url" id="full-url" required>
+      <button type="submit" name="submit">Shorten</button>
+    </form>
+{{end}}

@@ -1,0 +1,13 @@
+{{template "base" .}}
+
+{{define "main"}}
+<div>
+<h2>Shortened URL</h2>
+<p>{{.FullURL}}
+<h2>Links to:</h2>
+<p>{{.Target}}
+</div>
+<div>
+<a href="/">Make another</a>
+</div>
+{{end}}

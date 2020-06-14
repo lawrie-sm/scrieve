@@ -31,11 +31,12 @@ func (db *DB) Disconnect() {
 
 // Setup executes a query to create tables
 func (db *DB) Setup() (err error) {
-	q := `	DROP TABLE IF EXISTS links;
-		CREATE TABLE links (
-		id SERIAL PRIMARY KEY,
-		target_url TEXT,
-		short_url TEXT
+	q := `	DROP TABLE IF EXISTS pairs;
+		CREATE TABLE pairs (
+		token TEXT PRIMARY KEY,
+		target TEXT,
+		last_used TIMESTAMP,
+		created_at TIMESTAMP
 		);`
 	_, err = db.pool.Exec(q)
 	if err != nil {
