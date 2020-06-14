@@ -1,21 +1,9 @@
 package main
 
 import (
-	"fmt"
-	"html/template"
 	"log"
 	"net/http"
-	"os"
 )
-
-// Helper to generate HTML
-func genHTML(w http.ResponseWriter, data interface{}, filenames ...string) {
-	var paths []string
-	for _, n := range filenames {
-		paths = append(paths, fmt.Sprintf("web/views/%s.html", n))
-	}
-	template.Must(template.ParseFiles(paths...)).Execute(w, data)
-}
 
 // Render the index page
 func (s *service) serveIndex(w http.ResponseWriter, r *http.Request) {
@@ -24,36 +12,52 @@ func (s *service) serveIndex(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
+// Render the 400 (Bad Request) page - for invalid URLS
+func (s *service) serveInvalidURLErr(w http.ResponseWriter, r *http.Request) {
+	log.Printf("%s %s\n", r.Method, r.URL)
+	w.WriteHeader(http.StatusBadRequest)
+	genHTML(w, "The URL was invalid, please try again.", "index", "base")
+	return
+}
+
 // Render the shortened URL page
 func (s *service) serveShortened(w http.ResponseWriter, r *http.Request) {
 	log.Printf("%s %s\n", r.Method, r.URL)
 
-	// Parse the form and store the target URL
+	// Parse the form
 	err := r.ParseForm()
 	if err != nil {
 		log.Println(err)
-		http.Error(w, "Internal Server Error", 500)
+		http.Error(w,
+			http.StatusText(http.StatusInternalServerError),
+			http.StatusInternalServerError)
 		return
 	}
 
-	// TODO: Add HTTP/HTTPS to this
-	target := r.PostFormValue("full-url")
+	// Validate the URL
+	target, err := validateURL(r.PostFormValue("full-url"))
+	if err != nil {
+		log.Println(err)
+		s.serveInvalidURLErr(w, r)
+		return
+	}
 
-	// Create a new pair in the DB
+	// Create a new pair
 	p, err := s.db.CreatePair(target)
 	if err != nil {
 		log.Println(err)
-		http.Error(w, "Internal Server Error", 500)
+		http.Error(w,
+			http.StatusText(http.StatusInternalServerError),
+			http.StatusInternalServerError)
 		return
 	}
 
-	// Create the full URL for display and generate the template
-	fullURL := fmt.Sprintf("%s/%s", os.Getenv("ROOT_URL"), p.Token)
+	// Render the shortened page with the full URL and target
 	type data struct {
 		FullURL string
 		Target  string
 	}
-	d := data{fullURL, target}
+	d := data{getFullURL(p.Token), p.Target}
 	genHTML(w, d, "shortened", "base")
 
 	return
@@ -64,28 +68,27 @@ func (s *service) serveRedirect(w http.ResponseWriter, r *http.Request) {
 	log.Printf("%s %s\n", r.Method, r.URL)
 
 	// Grab the token from the end of the URL
-	path := r.URL.String()
+	path := r.URL.Path
 	token := path[1:len(path)]
 
 	// Retrieve the target with the token
 	target, err := s.db.GetTarget(token)
 	if err != nil {
 		log.Println(err)
-		// TODO: Nicer 404 page
-		http.Redirect(w, r, "/", 404)
+		http.Redirect(w, r, "/", 301)
 		return
 	}
 
 	// Perform the redirect
 	// We assume HTTP will be converted to HTTP in most cases
-	http.Redirect(w, r, target, 302)
+	http.Redirect(w, r, target, 301)
 	return
 }
 
 // Handles all interactions with the root - which is most of the app
 func (s *service) handleRoot(w http.ResponseWriter, r *http.Request) {
 	// Handle any redirects
-	if r.URL.String() != "/" {
+	if r.URL.Path != "/" {
 		s.serveRedirect(w, r)
 		return
 	}

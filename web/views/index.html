@@ -7,4 +7,9 @@
       <input type="text" name="full-url" id="full-url" required>
       <button type="submit" name="submit">Shorten</button>
     </form>
+    {{if . }}
+    <div>
+      <p>{{.}}</p>
+    </div>
+    {{end}}
 {{end}}

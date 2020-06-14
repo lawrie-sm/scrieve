@@ -35,6 +35,7 @@ func (db *DB) Setup() (err error) {
 		CREATE TABLE pairs (
 		token TEXT PRIMARY KEY,
 		target TEXT,
+		times_used INTEGER,
 		last_used TIMESTAMP,
 		created_at TIMESTAMP
 		);`
