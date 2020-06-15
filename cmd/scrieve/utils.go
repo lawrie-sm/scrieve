@@ -37,7 +37,7 @@ func validateURL(target string) (validated string, err error) {
 }
 
 // Returns the full URL for a token, by prepending the app root URL
-func getFullURL(token string) string {
+func getShortURL(token string) string {
 	return fmt.Sprintf("%s/%s", os.Getenv("ROOT_URL"), token)
 }
 

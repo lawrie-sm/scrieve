@@ -1,6 +1,128 @@
-body {
-  font-family: sans-serif;
-  display: flex;
-  margin: auto;
-  width: 560px;
+/* Globals */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  outline: 0;
+  font-family: monospace;
+  font-size: 18px;
+  line-height: 24px;
 }
+
+/* Layout - including 'sticky' footer */
+
+html, body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1 0 auto;
+  display: flex;
+  justify-content: center;
+  margin-top: 150px;
+  padding: 0 10px;
+}
+
+footer {
+  flex-shrink: 0;
+  font-size: 16px;
+  text-align: center;
+  padding-bottom: 10px;
+}
+
+/* Header */
+
+h1 {
+  text-align: center;
+  font-size: 50px;
+  margin-bottom: 30px;
+}
+
+/* Links */
+
+a {
+  color: black;
+}
+
+a:visited {
+  color: black;
+}
+
+#result {
+  text-align: center;
+  margin: 15px 0;
+}
+
+#result > a {
+  font-size: 26px;
+}
+
+#target {
+  margin-bottom: 60px;
+  max-height: 250px;
+  overflow: hidden;
+}
+
+#target > a {
+  font-size: 14px;
+}
+
+#return {
+  text-align: center;
+}
+
+footer > a {
+  font-size: 16px;
+}
+
+/* Forms */
+
+form {
+}
+
+label, input, button {
+  display: block;
+  width: 90%;
+  margin: 0 auto;
+}
+
+input {
+  padding: 5px 10px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+}
+
+button {
+  padding: 10px 10px;
+  border-radius: 50px;
+  color: white;
+  background-color: black;
+  transition: background-color 300ms;
+}
+
+button:hover {
+  background-color: grey;
+}
+
+#desc {
+  margin-bottom: 30px;
+}
+
+#err {
+  min-height: 35px;
+}
+
+#err > p {
+  text-align: center;
+  color: lightcoral;
+}
+
+
+
+

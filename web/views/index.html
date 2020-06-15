@@ -2,14 +2,18 @@
 
 {{define "main"}}
     <h1>Scrieve</h1>
+    <p id="desc">Link shortening. Clean and simple.</p>
+    <div id="err">
+      {{if .}}<p>{{.}}</p>{{end}}
+    </div>
     <form action="/" method="post">
-      <label for="url">Enter url to shorten</label>
-      <input type="text" name="full-url" id="full-url" required>
+      <input
+          type="text"
+          name="target"
+          placeholder="Enter URL"
+          aria-label="Enter URL"
+          required
+          >
       <button type="submit" name="submit">Shorten</button>
     </form>
-    {{if .}}
-    <div>
-      <p>{{.}}</p>
-    </div>
-    {{end}}
 {{end}}

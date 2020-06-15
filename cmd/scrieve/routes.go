@@ -1,6 +1,7 @@
 package main
 
 import (
+	"html/template"
 	"log"
 	"net/http"
 )
@@ -41,7 +42,7 @@ func (s *service) serveShortened(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Validate the URL
-	target, err := validateURL(r.PostFormValue("full-url"))
+	target, err := validateURL(r.PostFormValue("target"))
 	if err != nil {
 		log.Println(err)
 		s.serve400(w, r)
@@ -58,10 +59,15 @@ func (s *service) serveShortened(w http.ResponseWriter, r *http.Request) {
 
 	// Render the shortened page with the full URL and target
 	type data struct {
-		FullURL string
-		Target  string
+		Short  template.URL
+		Token  string
+		Target template.URL
 	}
-	d := data{getFullURL(p.Token), p.Target}
+	d := data{
+		Short:  template.URL(getShortURL(p.Token)),
+		Token:  p.Token,
+		Target: template.URL(p.Target),
+	}
 	genHTML(w, d, "shortened", "base")
 
 	return
@@ -91,7 +97,7 @@ func (s *service) serveRedirect(w http.ResponseWriter, r *http.Request) {
 // Handles all interactions with the root - which is most of the app
 func (s *service) handleRoot(w http.ResponseWriter, r *http.Request) {
 	// Handle any redirects
-	if r.URL.Path != "/" {
+	if len(r.URL.Path) > 1 {
 		s.serveRedirect(w, r)
 		return
 	}
