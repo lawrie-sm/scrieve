@@ -16,6 +16,9 @@ type Pair struct {
 // CreatePair creates a new pair in the DB
 func (db *DB) CreatePair(target string) (p Pair, err error) {
 	token, err := GenToken()
+	if err != nil {
+		return
+	}
 	p = Pair{
 		Token:     token,
 		Target:    target,
@@ -25,7 +28,13 @@ func (db *DB) CreatePair(target string) (p Pair, err error) {
 	}
 	q := `	INSERT INTO pairs
 		(token, target, times_used, last_used, created_at)
-		VALUES (?, ?, ?, ?, ?)`
+		VALUES (?, ?, ?, ?, ?)
+		ON CONFLICT(token) DO UPDATE SET
+			token=excluded.token,
+			target=excluded.target,
+			times_used=excluded.times_used,
+			last_used=excluded.last_used,
+			created_at=excluded.created_at`
 	_, err = db.pool.Exec(q,
 		p.Token, p.Target, p.TimesUsed, p.LastUsed, p.CreatedAt)
 	return

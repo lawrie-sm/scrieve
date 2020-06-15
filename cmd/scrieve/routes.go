@@ -13,10 +13,18 @@ func (s *service) serveIndex(w http.ResponseWriter, r *http.Request) {
 }
 
 // Render the 400 (Bad Request) page - for invalid URLS
-func (s *service) serveInvalidURLErr(w http.ResponseWriter, r *http.Request) {
+func (s *service) serve400(w http.ResponseWriter, r *http.Request) {
 	log.Printf("%s %s\n", r.Method, r.URL)
 	w.WriteHeader(http.StatusBadRequest)
 	genHTML(w, "Invalid URL, please try again.", "index", "base")
+	return
+}
+
+// Render the 404 (Not Found) page
+func (s *service) serve404(w http.ResponseWriter, r *http.Request) {
+	log.Printf("%s %s\n", r.Method, r.URL)
+	w.WriteHeader(http.StatusBadRequest)
+	genHTML(w, "That URL was not found.", "index", "base")
 	return
 }
 
@@ -28,9 +36,7 @@ func (s *service) serveShortened(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()
 	if err != nil {
 		log.Println(err)
-		http.Error(w,
-			http.StatusText(http.StatusInternalServerError),
-			http.StatusInternalServerError)
+		http.Error(w, "Internal Server Error", 500)
 		return
 	}
 
@@ -38,7 +44,7 @@ func (s *service) serveShortened(w http.ResponseWriter, r *http.Request) {
 	target, err := validateURL(r.PostFormValue("full-url"))
 	if err != nil {
 		log.Println(err)
-		s.serveInvalidURLErr(w, r)
+		s.serve400(w, r)
 		return
 	}
 
@@ -46,9 +52,7 @@ func (s *service) serveShortened(w http.ResponseWriter, r *http.Request) {
 	p, err := s.db.CreatePair(target)
 	if err != nil {
 		log.Println(err)
-		http.Error(w,
-			http.StatusText(http.StatusInternalServerError),
-			http.StatusInternalServerError)
+		http.Error(w, "Internal Server Error", 500)
 		return
 	}
 
@@ -75,12 +79,11 @@ func (s *service) serveRedirect(w http.ResponseWriter, r *http.Request) {
 	target, err := s.db.GetTarget(token)
 	if err != nil {
 		log.Println(err)
-		http.Redirect(w, r, "/", 301)
+		s.serve404(w, r)
 		return
 	}
 
 	// Perform the redirect
-	// We assume HTTP will be converted to HTTP in most cases
 	http.Redirect(w, r, target, 301)
 	return
 }
