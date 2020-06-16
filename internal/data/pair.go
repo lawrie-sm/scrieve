@@ -43,6 +43,7 @@ func (db *DB) CreatePair(target string) (p Pair, err error) {
 }
 
 // GetTarget returns a target URL, given a pair's token
+// It also updates the information on how the tracker is being used
 func (db *DB) GetTarget(token string) (target string, err error) {
 	q := `	SELECT target
 		FROM pairs
