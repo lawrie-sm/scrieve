@@ -8,6 +8,8 @@
   font-family: monospace;
   font-size: 18px;
   line-height: 24px;
+  color: black;
+  background-color: ghostwhite;
 }
 
 /* Layout - including 'sticky' footer */
@@ -31,7 +33,7 @@ main {
 
 footer {
   flex-shrink: 0;
-  font-size: 16px;
+  font-size: 14px;
   text-align: center;
   padding-bottom: 10px;
 }
@@ -60,13 +62,15 @@ a:visited {
 }
 
 #result > a {
-  font-size: 26px;
+  font-size: 28px;
+  font-weight: bold;
 }
 
 #target {
-  margin-bottom: 60px;
+  text-align: center;
   max-height: 250px;
   overflow: hidden;
+  margin-bottom: 60px;
 }
 
 #target > a {
@@ -78,13 +82,10 @@ a:visited {
 }
 
 footer > a {
-  font-size: 16px;
+  font-size: 14px;
 }
 
-/* Forms */
-
-form {
-}
+/* Form */
 
 label, input, button {
   display: block;
@@ -99,15 +100,19 @@ input {
 }
 
 button {
+  font-weight: bold;
   padding: 10px 10px;
+  border: 1px solid black;
   border-radius: 50px;
-  color: white;
+  color: ghostwhite;
+  border-color: black;
   background-color: black;
   transition: background-color 300ms;
 }
 
 button:hover {
-  background-color: grey;
+  border-color: dimgray;
+  background-color: dimgray;
 }
 
 #desc {
@@ -122,7 +127,3 @@ button:hover {
   text-align: center;
   color: lightcoral;
 }
-
-
-
-
