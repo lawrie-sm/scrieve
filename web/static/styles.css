@@ -50,6 +50,12 @@ h1 {
   margin-bottom: 30px;
 }
 
+/* Icon */
+img {
+  display: block;
+  margin: 20px auto;
+  width: 80px;
+}
 /* Links */
 
 a {
@@ -113,6 +119,8 @@ button:hover {
   background-color: dimgray;
 }
 
+/* Special text */
+
 #desc {
   margin-bottom: 30px;
 }
@@ -124,4 +132,19 @@ button:hover {
 #err > p {
   text-align: center;
   color: lightcoral;
+}
+
+/* Deal with smaller displays with little height - landscape phones */
+@media only screen and (max-height: 500px) {
+  main {
+    margin-top: 0px;
+  }
+
+  img {
+    margin: 0 auto;
+  }
+
+  #desc {
+    margin-bottom: 5px;
+  }
 }
