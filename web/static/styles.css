@@ -38,6 +38,10 @@ footer {
   padding-bottom: 10px;
 }
 
+footer > a {
+  font-size: 14px;
+}
+
 /* Header */
 
 h1 {
@@ -56,8 +60,11 @@ a:visited {
   color: black;
 }
 
-#result {
+#result, #target, #return {
   text-align: center;
+}
+
+#result {
   margin: 15px 0;
 }
 
@@ -67,21 +74,12 @@ a:visited {
 }
 
 #target {
-  text-align: center;
   max-height: 250px;
   overflow: hidden;
   margin-bottom: 60px;
 }
 
 #target > a {
-  font-size: 14px;
-}
-
-#return {
-  text-align: center;
-}
-
-footer > a {
   font-size: 14px;
 }
 
