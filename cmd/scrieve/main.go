@@ -2,12 +2,11 @@ package main
 
 import (
 	"fmt"
+	"github.com/joho/godotenv"
+	"github.com/lawrie-sm/scrieve/internal/data"
 	"log"
 	"net/http"
 	"os"
-
-	"github.com/joho/godotenv"
-	"github.com/lawrie-sm/scrieve/internal/data"
 )
 
 type service struct {
@@ -27,7 +26,12 @@ func newService() *service {
 	s.db.Connect()
 	s.db.Setup()
 
-	log.SetFlags(log.Lshortfile)
+	env := os.Getenv("SCRIEVE_ENV")
+	if env == "development" {
+		log.SetFlags(log.Lshortfile)
+	} else if env == "production" {
+		log.SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
+	}
 	return s
 }
 

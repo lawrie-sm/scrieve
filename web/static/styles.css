@@ -1,5 +1,4 @@
 /* Globals */
-
 * {
   box-sizing: border-box;
   margin: 0;
@@ -9,11 +8,10 @@
   font-size: 18px;
   line-height: 24px;
   color: black;
-  background-color: ghostwhite;
+  background-color: snow;
 }
 
 /* Layout - including 'sticky' footer */
-
 html, body {
   height: 100%;
 }
@@ -43,7 +41,6 @@ footer > a {
 }
 
 /* Header */
-
 h1 {
   text-align: center;
   font-size: 50px;
@@ -56,8 +53,8 @@ img {
   margin: 20px auto;
   width: 80px;
 }
-/* Links */
 
+/* Links */
 a {
   color: black;
 }
@@ -71,7 +68,8 @@ a:visited {
 }
 
 #result {
-  margin: 15px 0;
+  margin-top: 50px;
+  margin-bottom: 15px;
 }
 
 #result > a {
@@ -90,7 +88,6 @@ a:visited {
 }
 
 /* Form */
-
 label, input, button {
   display: block;
   width: 90%;
@@ -108,7 +105,7 @@ button {
   padding: 10px 10px;
   border: 1px solid black;
   border-radius: 50px;
-  color: ghostwhite;
+  color: snow;
   border-color: black;
   background-color: black;
   transition: background-color 300ms;
@@ -120,7 +117,6 @@ button:hover {
 }
 
 /* Special text */
-
 #desc {
   margin-bottom: 30px;
 }
@@ -134,7 +130,7 @@ button:hover {
   color: lightcoral;
 }
 
-/* Deal with smaller displays with little height - landscape phones */
+/* Reduce spacing if insufficient height */
 @media only screen and (max-height: 500px) {
   main {
     margin-top: 0px;
