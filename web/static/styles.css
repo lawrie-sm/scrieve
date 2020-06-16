@@ -1,3 +1,23 @@
+/* Colors */
+
+:root {
+  color-scheme: light dark;
+  --fg-col: black;
+  --bg-col: snow;
+  --mid-col: dimgray;
+  --err-col: lightcoral;
+}
+
+/* iOS dark mode */
+@media (prefers-color-scheme: dark) {
+:root {
+  --fg-col: snow;
+  --bg-col: black;
+  --mid-col: gray;
+  --err-col: lightcoral;
+  }
+}
+
 /* Globals */
 * {
   box-sizing: border-box;
@@ -7,8 +27,10 @@
   font-family: monospace;
   font-size: 18px;
   line-height: 24px;
-  color: black;
-  background-color: snow;
+  color: var(--fg-col);
+  background-color: var(--bg-col);
+  transition: color 200ms;
+  transition: background-color 200ms;
 }
 
 /* Layout - including 'sticky' footer */
@@ -25,7 +47,7 @@ main {
   flex: 1 0 auto;
   display: flex;
   justify-content: center;
-  margin-top: 150px;
+  margin-top: 120px;
   padding: 0 10px;
 }
 
@@ -48,19 +70,20 @@ h1 {
 }
 
 /* Icon */
-img {
+svg {
   display: block;
   margin: 20px auto;
-  width: 80px;
+  color: var(--fg-col);
+  fill: currentColor;
 }
 
 /* Links */
 a {
-  color: black;
+  color: var(--fg-col);
 }
 
 a:visited {
-  color: black;
+  color: var(--fg-col);
 }
 
 #result, #target, #return {
@@ -97,7 +120,9 @@ label, input, button {
 input {
   padding: 5px 10px;
   margin-bottom: 20px;
+  border: 1px solid var(--fg-col);
   border-radius: 5px;
+  border-style: solid;
 }
 
 button {
@@ -105,15 +130,14 @@ button {
   padding: 10px 10px;
   border: 1px solid black;
   border-radius: 50px;
-  color: snow;
-  border-color: black;
-  background-color: black;
-  transition: background-color 300ms;
+  color: var(--bg-col);
+  border-color: var(--fg-col);
+  background-color: var(--fg-col);
 }
 
 button:hover {
-  border-color: dimgray;
-  background-color: dimgray;
+  border-color: var(--mid-col);
+  background-color: var(--mid-col);
 }
 
 /* Special text */
@@ -127,13 +151,18 @@ button:hover {
 
 #err > p {
   text-align: center;
-  color: lightcoral;
+  color: var(--err-col);
 }
 
+/* Media Queries */
 /* Reduce spacing if insufficient height */
 @media only screen and (max-height: 500px) {
   main {
     margin-top: 0px;
+  }
+
+  #result {
+    margin-top: 100px;
   }
 
   img {
@@ -144,3 +173,4 @@ button:hover {
     margin-bottom: 5px;
   }
 }
+

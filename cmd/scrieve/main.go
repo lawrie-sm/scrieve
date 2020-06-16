@@ -9,6 +9,7 @@ import (
 	"os"
 )
 
+// service is used within main to store pointers to the database and muxer
 type service struct {
 	db  *data.DB
 	mux *http.ServeMux
@@ -18,6 +19,7 @@ func (s *service) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	s.mux.ServeHTTP(w, r)
 }
 
+// newService returns a new service, with DB connection and routes created
 func newService() *service {
 	s := &service{}
 	s.setupRoutes()
@@ -35,6 +37,7 @@ func newService() *service {
 	return s
 }
 
+// run is called by main, allowing it to return an error
 func run() error {
 	err := godotenv.Load(".env")
 	if err != nil {
@@ -43,7 +46,7 @@ func run() error {
 
 	service := newService()
 	port := os.Getenv("PORT")
-	addr := fmt.Sprintf("0.0.0.0:%s", port)
+	addr := fmt.Sprintf(":%s", port)
 	server := http.Server{
 		Addr:    addr,
 		Handler: service,

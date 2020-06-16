@@ -6,14 +6,14 @@ import (
 	"net/http"
 )
 
-// Render the index page
+// serveIndex returns the standard index template
 func (s *service) serveIndex(w http.ResponseWriter, r *http.Request) {
 	log.Printf("%s %s\n", r.Method, r.URL)
 	genHTML(w, "", "index", "base")
 	return
 }
 
-// Render the 400 (Bad Request) page - for invalid URLS
+// serve400 renders the index page with an "invalid URL" error and 400 header
 func (s *service) serve400(w http.ResponseWriter, r *http.Request) {
 	log.Printf("%s %s\n", r.Method, r.URL)
 	w.WriteHeader(http.StatusBadRequest)
@@ -21,7 +21,7 @@ func (s *service) serve400(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-// Render the 404 (Not Found) page
+// serve404 returns the index page with a "not found" error and 404 header
 func (s *service) serve404(w http.ResponseWriter, r *http.Request) {
 	log.Printf("%s %s\n", r.Method, r.URL)
 	w.WriteHeader(http.StatusBadRequest)
@@ -29,8 +29,9 @@ func (s *service) serve404(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-// Render the shortened URL page
-func (s *service) serveShortened(w http.ResponseWriter, r *http.Request) {
+// postURL processes the URL submission form, storing it in the database,
+// getting a short link and rendering a page showing the short link
+func (s *service) postURL(w http.ResponseWriter, r *http.Request) {
 	log.Printf("%s %s\n", r.Method, r.URL)
 
 	// Parse the form
@@ -73,7 +74,8 @@ func (s *service) serveShortened(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-// Lookup the short URL and issue a redirect
+// serveRedirect handles shortened links. It looks them up in the database
+// and issues an appropriate redirect
 func (s *service) serveRedirect(w http.ResponseWriter, r *http.Request) {
 	log.Printf("%s %s\n", r.Method, r.URL)
 
@@ -94,7 +96,8 @@ func (s *service) serveRedirect(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-// Handles all interactions with the root - which is most of the app
+// handleRoot passes on all non root requests to be redirected
+// and serves GET and POST requests on the root
 func (s *service) handleRoot(w http.ResponseWriter, r *http.Request) {
 	// Handle any redirects
 	if len(r.URL.Path) > 1 {
@@ -107,13 +110,14 @@ func (s *service) handleRoot(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if r.Method == http.MethodPost {
-		s.serveShortened(w, r)
+		s.postURL(w, r)
 		return
 	}
 	http.Error(w, "Method not allowed", 405)
 	return
 }
 
+// setupRoutes creates a muxer and assigns handle functions
 func (s *service) setupRoutes() {
 	s.mux = http.NewServeMux()
 

@@ -9,8 +9,7 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
-// DB contains a pointer to a pool and methods for interfacing with
-// the db.
+// DB contains a pointer to a pool and methods for the database
 type DB struct {
 	pool *sql.DB
 }

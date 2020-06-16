@@ -13,7 +13,8 @@ type Pair struct {
 	CreatedAt time.Time
 }
 
-// CreatePair creates a new pair in the DB
+// CreatePair creates a new pair in the DB, or replaces an existing one
+// in the extremely unlikely event of a token conflict
 func (db *DB) CreatePair(target string) (p Pair, err error) {
 	token, err := GenToken()
 	if err != nil {
@@ -41,7 +42,7 @@ func (db *DB) CreatePair(target string) (p Pair, err error) {
 
 }
 
-// GetTarget returns a target, given a pair's token
+// GetTarget returns a target URL, given a pair's token
 func (db *DB) GetTarget(token string) (target string, err error) {
 	q := `	SELECT target
 		FROM pairs

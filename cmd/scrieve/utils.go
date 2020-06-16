@@ -9,7 +9,7 @@ import (
 	"os"
 )
 
-// Validates a URL. Also escapes any special characters if needed.
+// validateURL validates a URL. Also escapes any special characters if needed.
 // For speed, we don't check that it responds, just that it's valid
 func validateURL(target string) (validated string, err error) {
 	url, err := tld.Parse(target)
@@ -36,12 +36,13 @@ func validateURL(target string) (validated string, err error) {
 	return
 }
 
-// Returns the full URL for a token, by prepending the app root URL
+// getShortURL returns the full short URL path for a token
+// by prepending the apps root URL
 func getShortURL(token string) string {
 	return fmt.Sprintf("%s/%s", os.Getenv("ROOT_URL"), token)
 }
 
-// Helper to generate HTML
+// genHTML is a helper for template rendering
 func genHTML(w http.ResponseWriter, data interface{}, filenames ...string) {
 	var paths []string
 	for _, n := range filenames {
