@@ -3,7 +3,7 @@
 :root {
   color-scheme: light dark;
   --fg-col: black;
-  --bg-col: snow;
+  --bg-col: white;
   --mid-col: dimgray;
   --err-col: lightcoral;
 }
@@ -11,7 +11,7 @@
 /* iOS dark mode */
 @media (prefers-color-scheme: dark) {
 :root {
-  --fg-col: snow;
+  --fg-col: white;
   --bg-col: black;
   --mid-col: gray;
   --err-col: lightcoral;
@@ -158,6 +158,10 @@ button:hover {
 /* Reduce spacing if insufficient height */
 @media only screen and (max-height: 500px) {
   main {
+    margin-top: 0px;
+  }
+
+  svg {
     margin-top: 0px;
   }
 
