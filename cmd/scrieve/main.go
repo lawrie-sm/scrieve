@@ -46,7 +46,7 @@ func run() error {
 
 	service := newService()
 	port := os.Getenv("PORT")
-	addr := fmt.Sprintf(":%s", port)
+	addr := fmt.Sprintf("0.0.0.0:%s", port)
 	server := http.Server{
 		Addr:    addr,
 		Handler: service,
