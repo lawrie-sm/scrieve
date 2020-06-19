@@ -1,4 +1,4 @@
-# scrieve
+# [scrieve](https://scrieve.link)
 
 Scrieve is a clean and simple URL shortener.
 
