@@ -39,7 +39,6 @@ func (db *DB) CreatePair(target string) (p Pair, err error) {
 	_, err = db.pool.Exec(q,
 		p.Token, p.Target, p.TimesUsed, p.LastUsed, p.CreatedAt)
 	return
-
 }
 
 // GetTarget returns a target URL, given a pair's token
@@ -58,6 +57,5 @@ func (db *DB) GetTarget(token string) (target string, err error) {
 			WHERE token = ?`
 		_, err = db.pool.Exec(q, time.Now(), token)
 	}
-
 	return
 }

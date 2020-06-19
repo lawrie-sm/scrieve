@@ -1,5 +1,4 @@
 /* Colors */
-
 :root {
   color-scheme: light dark;
   --fg-col: black;
@@ -169,12 +168,7 @@ button:hover {
     margin-top: 100px;
   }
 
-  img {
-    margin: 0 auto;
-  }
-
   #desc {
     margin-bottom: 5px;
   }
 }
-

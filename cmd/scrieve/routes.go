@@ -70,7 +70,6 @@ func (s *service) postURL(w http.ResponseWriter, r *http.Request) {
 		Target: template.URL(p.Target),
 	}
 	genHTML(w, d, "shortened", "base")
-
 	return
 }
 
