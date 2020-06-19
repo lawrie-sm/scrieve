@@ -4,6 +4,7 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"os"
 )
 
 // serveIndex returns the standard index template
@@ -121,9 +122,11 @@ func (s *service) handleRoot(w http.ResponseWriter, r *http.Request) {
 func (s *service) setupRoutes() {
 	s.mux = http.NewServeMux()
 
-	// File server for static assets
-	fs := http.FileServer(http.Dir("web/static"))
-	s.mux.Handle("/static/", http.StripPrefix("/static/", fs))
+	// File server for static assets during development
+	if os.Getenv("SCRIEVE_ENV") == "development" {
+		fs := http.FileServer(http.Dir("web/static"))
+		s.mux.Handle("/static/", http.StripPrefix("/static/", fs))
+	}
 
 	// Main handle func
 	s.mux.HandleFunc("/", s.handleRoot)
