@@ -12,6 +12,11 @@ import (
 // validateURL validates a URL. Also escapes any special characters if needed.
 // For speed, we don't check that it responds, just that it's valid
 func validateURL(target string) (validated string, err error) {
+	if len(target) > 2000 {
+		err = errors.New("URL too long")
+		return
+	}
+
 	url, err := tld.Parse(target)
 	if err != nil {
 		return

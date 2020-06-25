@@ -76,6 +76,11 @@ func (s *service) postURL(w http.ResponseWriter, r *http.Request) {
 // serveRedirect handles shortened links. It looks them up in the database
 // and issues an appropriate redirect
 func (s *service) serveRedirect(w http.ResponseWriter, r *http.Request) {
+	if len(r.URL.Path) > 2000 {
+		log.Println("URL too long")
+		http.Error(w, "URL too long", 414)
+		return
+	}
 	log.Printf("%s %s\n", r.Method, r.URL)
 
 	// Grab the token from the end of the URL
