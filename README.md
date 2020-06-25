@@ -1,3 +1,3 @@
 # [Scrieve](https://scrieve.link)
 
-Scrieve is a simple URL shortener. Built with Go and SQLite.
+Scrieve is a URL shortener built with Go and SQLite.
